@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Smartex Canada All rights reserved.
+ * See LICENSE for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\InventoryInStorePickupSales\Model\SourceSelection\GetSourceItemQtyAvailableService">
+        <plugin name="order_authorization_fix" type="Smartex\InventoryInStorePickupSalesFix\Plugin\GetSourceItemQtyAvailableServicePlugin"/>
+    </type>
+
+    <type name="Magento\Sales\Model\ResourceModel\Order\Plugin\Authorization">
+        <plugin name="inventory_in_store_pickup_sales_fix" type="Smartex\InventoryInStorePickupSalesFix\Plugin\AuthorizationPlugin"/>
+    </type>
+</config>
