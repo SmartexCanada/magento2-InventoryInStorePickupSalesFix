@@ -7,11 +7,11 @@ declare(strict_types=1);
 
 namespace Smartex\InventoryInStorePickupSalesFix\Plugin;
 
-use Magento\InventoryApi\Api\Data\SourceItemInterface;
-use Magento\InventoryInStorePickupSales\Model\SourceSelection\GetSourceItemQtyAvailableService;
+use Magento\InventoryInStorePickupSales\Model\SourceSelection\GetActiveStorePickupOrdersBySource;
+use Magento\Sales\Api\Data\OrderSearchResultInterface;
 use Smartex\InventoryInStorePickupSalesFix\Model\SourceSelection;
 
-class GetSourceItemQtyAvailableServicePlugin
+class GetActiveStorePickupOrdersBySourcePlugin
 {
     /**
      * @var SourceSelection
@@ -28,20 +28,20 @@ class GetSourceItemQtyAvailableServicePlugin
     }
 
     /**
-     * @param GetSourceItemQtyAvailableService $subject
+     * @param GetActiveStorePickupOrdersBySource $subject
      * @param callable $proceed
-     * @param SourceItemInterface $sourceItem
-     * @return float
+     * @param string $pickupLocationCode
+     * @return OrderSearchResultInterface
      */
     public function aroundExecute(
-        GetSourceItemQtyAvailableService $subject,
+        GetActiveStorePickupOrdersBySource $subject,
         callable $proceed,
-        SourceItemInterface $sourceItem
-    ): float
+        string $pickupLocationCode
+    ): OrderSearchResultInterface
     {
         return $this->sourceSelection->startSourceSelection(
-            function () use ($proceed, $sourceItem) {
-                return $proceed($sourceItem);
+            function () use ($proceed, $pickupLocationCode) {
+                return $proceed($pickupLocationCode);
             }
         );
     }
